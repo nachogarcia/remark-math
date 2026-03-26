@@ -309,6 +309,13 @@ test('rehype-mathjax', async function (t) {
     assert.match(String(file), /mjx-container/)
   })
 
+  await t.test('should have a no-op asyncLoad', async function () {
+    const {mathjax} = await import('@mathjax/src/js/mathjax.js')
+    const result = mathjax.asyncLoad('anything')
+    assert.ok(result instanceof Promise)
+    assert.equal(await result, undefined)
+  })
+
   await t.test('should catch renderer exceptions', async function () {
     const {createPlugin} = await import('../lib/create-plugin.js')
 
